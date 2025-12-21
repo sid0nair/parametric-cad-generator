@@ -1,5 +1,5 @@
-Title: "Fusion 360 Parametric Build System (Internship Project)"
-Description: >
+Fusion 360 Parametric Build System (Internship Project)
+Description:
   A proof-of-concept system developed during my internship at Philips India Ltd.
   to explore AI-assisted CAD modification. This prototype demonstrates how
   natural language instructions can be converted into basic parametric updates
@@ -16,7 +16,7 @@ Table_of_contents:
   - Acknowledgement
 
 overview:
-  objective: >
+  objective: 
     Build a system to reduce manual CAD editing time by automating simple
     parametric changes via natural language prompts.
   key_capabilities:
