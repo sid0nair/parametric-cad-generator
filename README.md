@@ -1,111 +1,218 @@
-Fusion 360 Parametric Build System (Internship Project)
-Description:
-  A proof-of-concept system developed during my internship at Philips India Ltd.
-  to explore AI-assisted CAD modification. This prototype demonstrates how
-  natural language instructions can be converted into basic parametric updates
-  in Fusion 360 using LLMs and a vector database.
+# Fusion 360 Parametric Build System
 
-Table_of_contents:
-  - Overview
-  - System Architecture
-  - Core Components
-  - Installation
-  - Basic Usage
-  - Current Limitations
-  - File Structure
-  - Acknowledgement
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Fusion 360](https://img.shields.io/badge/Fusion%20360-API-orange.svg)](https://www.autodesk.com/products/fusion-360/)
+[![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector%20DB-green.svg)](https://www.trychroma.com/)
 
-overview:
-  objective: 
-    Build a system to reduce manual CAD editing time by automating simple
-    parametric changes via natural language prompts.
-  key_capabilities:
-    - Converts natural language to structured JSON instructions.
-    - Retrieves relevant Fusion API code examples from a ChromaDB vector database.
-    - Generates and executes basic Fusion 360 Python scripts.
-    - Supports simple parametric edits such as cylinder creation and hole diameter modification.
+> A proof-of-concept system that demonstrates AI-assisted CAD modification by converting natural language instructions into parametric updates in Fusion 360 using LLMs and vector databases.
 
-system_architecture:
-  workflow: "Text Instruction → JSON Parser → Vector Search → Code Generator → Fusion 360 Script"
-  current_scope:
-    - Limited to basic geometric edits only.
-    - Single-script execution in Fusion 360 due to runtime restrictions.
+Developed during my internship at **Philips India Ltd.** under the guidance of Prof. Amber Srivastava (IIT Delhi) and Dr. Amar Banerjee (Philips India Ltd.).
 
-core_components:
-  text_to_json:
-    file: "text_2_JSON.py"
-    description: >
-      Converts natural language to structured JSON instructions for CAD updates.
-    example:
-      input: "change cylinder diameter to 25mm"
-      output_json:
-        part: "cylinder"
-        parameter: "diameter"
-        new_value: 25
-        unit: "mm"
-  vector_database:
-    files:
-      - vector_db_setup.py
-      - add_code.py
-      - quick_add.py
-      - view_database.py
-    description: >
-      ChromaDB-based storage for reusable Fusion API snippets and code patterns,
-      enabling semantic search for relevant examples.
-  code_generator:
-    files:
-      - qwen_coder_bot.py
-    description: >
-      Uses Qwen2.5-coder to convert JSON instructions into Fusion 360 Python API code,
-      with basic error handling and retries.
-  integrated_pipeline:
-    file: "integrated_fusion_generator.py"
-    description: >
-      Combines JSON parsing, code generation, and execution into a single Fusion-compliant script.
-      Currently supports creating and modifying basic geometric parts.
+---
 
-installation:
-  prerequisites:
-    - Python 3.8+
-    - Autodesk Fusion 360 with Python scripting
-    - Ollama for local LLM execution
-  setup_commands:
-    - "pip install chromadb requests"
-    - "ollama serve"
-    - "ollama pull qwen2.5-coder:7b"
-    - "ollama pull gemma:4b"
-  database_initialization:
-    - "python vector_db_setup.py"
-    - "python add_code.py"
+## 🎯 Overview
 
-basic_usage:
-  run_pipeline: "python integrated_fusion_generator.py"
-  example:
-    instruction: "create a cylinder diameter 40mm height 60mm"
-    result: "Fusion 360 executes generated code and performs the edit."
+This project explores how natural language processing can streamline CAD workflows by automating simple parametric changes. Instead of manually editing CAD models, users can provide text instructions that are automatically converted into executable Fusion 360 scripts.
 
-current_limitations:
-  - Prototype stage, not optimized for complex assemblies.
-  - Limited to basic geometric features (extrude, cut, simple parametric updates).
-  - Vector database contains a small set of manually added examples.
-  - Basic error handling; no advanced recovery or multi-part assembly support.
+### Key Capabilities
 
-file_structure: |
-  parametric_build/
-  ├── text_2_JSON.py                  # Natural language to JSON converter
-  ├── updation_pipeline/
-  │   ├── database_builder/
-  │   │   ├── vector_db_setup.py     # Setup ChromaDB
-  │   │   ├── add_code.py            # Add examples to DB
-  │   │   ├── quick_add.py           # Quick code addition utility
-  │   │   └── view_database.py       # Search and view DB contents
-  │   └── qwen_bot/
-  │       ├── qwen_coder_bot.py      # JSON to Fusion code generation
-  │       ├── integrated_fusion_generator.py  # Combined pipeline
-  │       ├── test.py                # Basic validation tests
+- 🗣️ **Natural Language to JSON**: Convert plain English instructions into structured JSON commands
+- 🔍 **Semantic Code Search**: Retrieve relevant Fusion 360 API examples using ChromaDB vector database
+- 🤖 **AI Code Generation**: Generate Python scripts using Qwen2.5-coder for Fusion 360 automation
+- ⚙️ **Parametric Editing**: Support for basic geometric operations like cylinder creation and dimension modifications
 
-acknowledgement: >
-  This project was developed as part of my internship at Philips India Ltd.
-  under the guidance of Prof. Amber Srivastava (IIT Delhi) and Dr. Amar Banerjee
-  (Scientist, AI Innovation, Philips India Ltd.). Inspired by Adaptive RAG for CAD
-  (Neil Patel, 2025), this work explores its adaptation for real-world parametric CAD updates.
+---
+
+## 🏗️ System Architecture
+
+```
+Text Instruction → JSON Parser → Vector Search → Code Generator → Fusion 360 Script
+```
+
+The system follows a modular pipeline:
+
+1. **Natural Language Input**: User provides instruction (e.g., "create a cylinder diameter 40mm height 60mm")
+2. **JSON Conversion**: Text is parsed into structured JSON format
+3. **Vector Database Query**: Relevant Fusion API code examples are retrieved semantically
+4. **Code Generation**: LLM generates executable Python code based on examples
+5. **Execution**: Generated script runs in Fusion 360 to perform the CAD operation
+
+### Current Scope
+
+- ✅ Basic geometric edits (extrude, cut, simple parametric updates)
+- ✅ Single-script execution per operation
+- ⚠️ Limited to simple features (not optimized for complex assemblies)
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+
+- Python 3.8 or higher
+- [Autodesk Fusion 360](https://www.autodesk.com/products/fusion-360/) with Python scripting enabled
+- [Ollama](https://ollama.ai/) for local LLM execution
+
+### Setup Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/fusion360-parametric-build.git
+   cd fusion360-parametric-build
+   ```
+
+2. **Install Python dependencies**
+   ```bash
+   pip install chromadb requests
+   ```
+
+3. **Setup Ollama and pull required models**
+   ```bash
+   ollama serve
+   ollama pull qwen2.5-coder:7b
+   ollama pull gemma:4b
+   ```
+
+4. **Initialize the vector database**
+   ```bash
+   python vector_db_setup.py
+   python add_code.py
+   ```
+
+---
+
+## 🚀 Usage
+
+### Running the Pipeline
+
+```bash
+python integrated_fusion_generator.py
+```
+
+### Example Workflow
+
+**Input:**
+```
+"create a cylinder diameter 40mm height 60mm"
+```
+
+**Generated JSON:**
+```json
+{
+  "part": "cylinder",
+  "parameter": "diameter",
+  "new_value": 40,
+  "unit": "mm",
+  "height": 60
+}
+```
+
+**Result:** Fusion 360 executes the generated script and creates the specified cylinder.
+
+### Supported Operations
+
+- Creating basic geometric shapes (cylinders, boxes)
+- Modifying parametric dimensions
+- Simple hole creation and diameter changes
+
+---
+
+## 📁 Project Structure
+
+```
+parametric_build/
+├── text_2_JSON.py                      # Natural language to JSON converter
+├── updation_pipeline/
+│   ├── database_builder/
+│   │   ├── vector_db_setup.py         # Setup ChromaDB
+│   │   ├── add_code.py                # Add examples to database
+│   │   ├── quick_add.py               # Quick code addition utility
+│   │   └── view_database.py           # Search and view database contents
+│   └── qwen_bot/
+│       ├── qwen_coder_bot.py          # JSON to Fusion code generation
+│       ├── integrated_fusion_generator.py  # Combined pipeline
+│       └── test.py                    # Basic validation tests
+└── README.md
+```
+
+---
+
+## 🔧 Core Components
+
+### 1. Text-to-JSON Parser (`text_2_JSON.py`)
+
+Converts natural language instructions into structured JSON format for downstream processing.
+
+**Example:**
+- Input: `"change cylinder diameter to 25mm"`
+- Output: `{"part": "cylinder", "parameter": "diameter", "new_value": 25, "unit": "mm"}`
+
+### 2. Vector Database (`database_builder/`)
+
+ChromaDB-based storage system for Fusion 360 API code snippets, enabling semantic search for relevant examples.
+
+**Files:**
+- `vector_db_setup.py` - Initialize ChromaDB
+- `add_code.py` - Add code examples to database
+- `quick_add.py` - Quick utility for adding snippets
+- `view_database.py` - Search and inspect database contents
+
+### 3. Code Generator (`qwen_coder_bot.py`)
+
+Uses Qwen2.5-coder LLM to convert JSON instructions into executable Fusion 360 Python API code with error handling and retry logic.
+
+### 4. Integrated Pipeline (`integrated_fusion_generator.py`)
+
+Combines all components into a single Fusion 360-compliant script that handles the complete workflow from natural language to CAD execution.
+
+---
+
+## ⚠️ Current Limitations
+
+This is a **proof-of-concept prototype** with the following limitations:
+
+- 🔸 Limited to basic geometric features (not suitable for complex assemblies)
+- 🔸 Small vector database with manually added examples
+- 🔸 Basic error handling (no advanced recovery mechanisms)
+- 🔸 Single-script execution per operation due to Fusion 360 runtime restrictions
+---
+
+## 🔮 Future Enhancements
+
+- [ ] Expand vector database with comprehensive Fusion API examples
+- [ ] Support for complex assemblies and constraints
+- [ ] Advanced error recovery and validation
+- [ ] Multi-step operation support
+- [ ] Integration with CAD file version control
+- [ ] Web interface for easier interaction
+
+---
+
+## 🙏 Acknowledgements
+
+This project was developed as part of my internship at **Philips India Ltd.** under the guidance of:
+
+- **Prof. Amber Srivastava** - IIT Delhi
+- **Dr. Amar Banerjee** - Scientist, AI Innovation, Philips India Ltd.
+
+Inspired by **Adaptive RAG for CAD** (Neil Patel, 2025), this work explores its adaptation for real-world parametric CAD updates.
+
+---
+
+## 📄 License
+
+This project is part of academic research conducted at IIT Delhi and Philips India Ltd.
+
+---
+
+## 📧 Contact
+
+**Siddharth (Sid)**  
+IIT Delhi | B.Tech Mechanical Engineering + CS Minor  
+[GitHub](https://github.com/yourusername) | [LinkedIn](https://linkedin.com/in/yourprofile)
+
+---
+
+## 🌟 Star this repository
+
+If you find this project useful or interesting, please consider giving it a star! ⭐
