@@ -202,17 +202,3 @@ Inspired by **Adaptive RAG for CAD** (Neil Patel, 2025), this work explores its 
 ## 📄 License
 
 This project is part of academic research conducted at IIT Delhi and Philips India Ltd.
-
----
-
-## 📧 Contact
-
-**Siddharth (Sid)**  
-IIT Delhi | B.Tech Mechanical Engineering + CS Minor  
-[GitHub](https://github.com/yourusername) | [LinkedIn](https://linkedin.com/in/yourprofile)
-
----
-
-## 🌟 Star this repository
-
-If you find this project useful or interesting, please consider giving it a star! ⭐
